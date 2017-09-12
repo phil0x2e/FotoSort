@@ -88,10 +88,11 @@ void MainWindow::on_rightButton_clicked()
     currentPic += 1;
     if(currentPic >= files.size()) currentPic = 0;  //If last pic is reached go back to first
     scene->clear();
+    scene->setSceneRect(QPixmap(files.at(currentPic)).rect());
     scene->addPixmap(QPixmap(files.at(currentPic)));
-    ui->graphicsView->fitInView(0, 0, scene->width(), scene->height(), Qt::KeepAspectRatio);    //Resize view back to normal after changing pic
-
     ui->graphicsView->setScene(scene);
+    ui->graphicsView->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);    //Resize view back to normal after changing pic
+
     QString tmpFile = files.at(currentPic);
     tmpFile = tmpFile.remove(0, tmpFile.lastIndexOf("/")+1);
     MainWindow::setWindowTitle("PicSort - " + tmpFile + " (" +  QString::number(currentPic+1) + "/" + QString::number(files.size()) + ")");
@@ -104,8 +105,10 @@ void MainWindow::on_leftButton_clicked()
     currentPic -= 1;
     if(currentPic < 0) currentPic = files.size()-1;
     scene->clear();
+    scene->setSceneRect(QPixmap(files.at(currentPic)).rect());
     scene->addPixmap(QPixmap(files.at(currentPic)));
-    ui->graphicsView->fitInView(0, 0, scene->width(), scene->height(), Qt::KeepAspectRatio);
+    ui->graphicsView->setScene(scene);
+    ui->graphicsView->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);    //Resize view back to normal after changing pic
 
     ui->graphicsView->setScene(scene);
     QString tmpFile = files.at(currentPic);
